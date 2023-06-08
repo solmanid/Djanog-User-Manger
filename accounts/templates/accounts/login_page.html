@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{#    <div class="login-box card-center">#}
+{##}
+{#        <!-- /.login-logo -->#}
+{#        <div class="card">#}
+{#            <div class="card-body login-card-body">#}
+{##}
+{#                <form action="{% url 'user_login' %}" method="post">#}
+{#                    {% csrf_token %}#}
+{#                    <div class="input-group mb-3">#}
+{#                        {{ form.username }}#}
+{#                        {{ form.username.errors }}#}
+{##}
+{#                        <div class="input-group-append">#}
+{#                            <div class="input-group-text">#}
+{#                                <span class="fas fa-envelope"></span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="input-group mb-3">#}
+{#                        {{ form.password }}#}
+{#                        {{ form.password.errors }}#}
+{#                        <div class="input-group-append">#}
+{#                            <div class="input-group-text">#}
+{#                                <span class="fas fa-lock"></span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-8">#}
+{#                            <div class="icheck-primary">#}
+{#                                <input type="checkbox" id="remember">#}
+{#                                <label for="remember">#}
+{#                                    Remember Me#}
+{#                                </label>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <!-- /.col -->#}
+{#                        <div class="col-4">#}
+{#                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>#}
+{#                        </div>#}
+{#                        <!-- /.col -->#}
+{#                    </div>#}
+{#                </form>#}
+{##}
+{#                <!-- /.social-auth-links -->#}
+{##}
+{#                <p class="mb-1">#}
+{#                    <a href="forgot-password.html">I forgot my password</a>#}
+{#                </p>#}
+{#                <p class="mb-0">#}
+{#                    <a href="{% url 'user_register' %}" class="text-center">Register a new membership</a>#}
+{#                </p>#}
+{#            </div>#}
+{#            <!-- /.login-card-body -->#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- Sing in  Form -->#}
+
+
+    <section class="sign-in pad-top-form">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="{% static 'login/images/signin-image.jpg' %}" alt="sing up image"></figure>
+                    <a href="{% url 'user_register' %}" class="signup-image-link">Create an account</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <form method="POST" class="register-form" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.username }}
+                                {{ form.username.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.password }}
+                                {{ form.password.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term">
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
+                                me</label>
+                        </div>
+                        <div class="form-group form-button">
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

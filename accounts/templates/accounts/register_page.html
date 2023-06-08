@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {#    <div class="register-box card-center">#}
+    {##}
+    {#        <div class="card ">#}
+    {#            <div class="card-body register-card-body">#}
+    {##}
+    {#                <form action="{% url 'user_register' %}" method="post">#}
+    {#                    {% csrf_token %}#}
+    {#                    <div class="input-group mb-3">#}
+    {#                        {{ form.username }}#}
+    {#                        {{ form.username.errors }}#}
+    {##}
+    {#                        <div class="input-group-append">#}
+    {#                            <div class="input-group-text">#}
+    {#                                <span class="fas fa-user"></span>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="input-group mb-3">#}
+    {#                        {{ form.email }}#}
+    {#                        {{ form.email.errors }}#}
+    {##}
+    {##}
+    {#                        <div class="input-group-append">#}
+    {#                            <div class="input-group-text">#}
+    {#                                <span class="fas fa-envelope"></span>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="input-group mb-3">#}
+    {#                        {{ form.password }}#}
+    {#                        {{ form.password.errors }}#}
+    {##}
+    {##}
+    {#                        <div class="input-group-append">#}
+    {#                            <div class="input-group-text">#}
+    {#                                <span class="fas fa-lock"></span>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="input-group mb-3">#}
+    {#                        {{ form.confirm_password }}#}
+    {#                        {{ form.confirm_password.errors }}#}
+    {##}
+    {##}
+    {#                        <div class="input-group-append">#}
+    {#                            <div class="input-group-text">#}
+    {#                                <span class="fas fa-lock"></span>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="row">#}
+    {#                        <div class="col-8">#}
+    {#                            <div class="icheck-primary">#}
+    {#                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">#}
+    {#                                <label for="agreeTerms">#}
+    {#                                    I agree to the <a href="#">terms</a>#}
+    {#                                </label>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        <!-- /.col -->#}
+    {#                        <div class="col-4">#}
+    {#                            <button type="submit" class="btn btn-primary btn-block">Register</button>#}
+    {#                        </div>#}
+    {#                        <!-- /.col -->#}
+    {#                    </div>#}
+    {#                </form>#}
+    {##}
+    {##}
+    {#                <a href="{% url 'user_login' %}" class="text-center">I already have a membership</a>#}
+    {#            </div>#}
+    {#            <!-- /.form-box -->#}
+    {#        </div><!-- /.card -->#}
+    {#    </div>#}
+    {##}
+    {##}
+    {##}
+
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form" action="{% url 'user_register' %}">
+                            {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.username }}
+                                {{ form.username.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.password }}
+                                {{ form.password.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.confirm_password }}
+                                {{ form.confirm_password.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
+                                    statements in <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="{% static 'login/images/signup-image.jpg' %}" alt="sing up image"></figure>
+                        <a href="{% url 'user_login' %}" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+{% endblock %}
