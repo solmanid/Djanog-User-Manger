@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+    <section class="sign-in pad-top-form">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="{% static 'login/images/signin-image.jpg' %}" alt="sing up image"></figure>
+                    <a href="{% url 'user_register' %}" class="signup-image-link">Create an account</a>
+                </div>
+                <div class="signin-form">
+                    <h2 class="form-title">Reset Password</h2>
+                    <form method="POST" class="register-form" id="login-form"
+                          action="{% url 'reset-pass' active_code=user.email_active_code %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.password }}
+                                {{ form.password.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                {{ form.confirm_password }}
+                                {{ form.confirm_password.errors }}
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                {{ form.captcha }}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group form-button">
+                            <button type="submit" class="btn btn-primary btn-block">Reset</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

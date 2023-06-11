@@ -89,54 +89,59 @@
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="register-form" action="{% url 'user_register' %}">
                             {% csrf_token %}
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                {#                                <input type="email" class="form-control" placeholder="Email">#}
-                                {{ form.username }}
-                                {{ form.username.errors }}
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                    {{ form.username }}
+                                    {{ form.username.errors }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                {#                                <input type="email" class="form-control" placeholder="Email">#}
-                                {{ form.email }}
-                                {{ form.email.errors }}
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-envelope"></span>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                    {{ form.email }}
+                                    {{ form.email.errors }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-envelope"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                {#                                <input type="email" class="form-control" placeholder="Email">#}
-                                {{ form.password }}
-                                {{ form.password.errors }}
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                    {{ form.password }}
+                                    {{ form.password.errors }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                {#                                <input type="email" class="form-control" placeholder="Email">#}
-                                {{ form.confirm_password }}
-                                {{ form.confirm_password.errors }}
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
+                                    {{ form.confirm_password }}
+                                    {{ form.confirm_password.errors }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    {{ form.captcha }}
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all

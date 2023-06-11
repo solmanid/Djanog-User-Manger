@@ -1,3 +1,6 @@
+# Third party
+# from captcha.fields import CaptchaField
+from captcha.fields import CaptchaField
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -60,6 +63,8 @@ class RegisterForm(forms.Form):
         ]
     )
 
+    captcha = CaptchaField()
+
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
         confirm_password = self.cleaned_data.get('confirm_password')
@@ -97,31 +102,37 @@ class LoginForm(forms.Form):
             validators.MaxLengthValidator(100),
         ]
     )
+    captcha = CaptchaField()
+
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
 
 class ForgotPasswordForm(forms.Form):
-    username = forms.CharField(
-        label='username',
-        widget=forms.TextInput(attrs={
+    email = forms.CharField(
+        label='Email',
+        widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Username',
-            # 'id': 'your_name',
-            # 'name': 'your_name',
-            # 'type': 'text',
-        }),
+            'placeholder': 'Email',
+            # 'id': 'email',
+            # 'name': 'email',
 
+        }),
         validators=[
             validators.MaxLengthValidator(100),
+            validators.EmailValidator,
         ]
     )
+    captcha = CaptchaField()
 
+
+class ResetPasswordForm(forms.Form):
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Password',
-            # 'id': 'your_pass',
-            # 'name': 'your_pass',
+            # 'id': 'pass',
+            # 'name': 'pass',
 
         }),
         validators=[
@@ -133,11 +144,13 @@ class ForgotPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Confirm Password',
-            # 'id': 'your_pass',
-            # 'name': 'your_pass',
+            # 'id': 're_pass',
+            # 'name': 're_pass',
 
         }),
         validators=[
             validators.MaxLengthValidator(100),
         ]
     )
+
+    captcha = CaptchaField()
