@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from accounts.models import User
+from accounts.models import User, OtpCode
 
 
 # Register your models here.
@@ -8,4 +8,9 @@ from accounts.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OtpCode)
+class OtpAdmin(admin.ModelAdmin):
     pass

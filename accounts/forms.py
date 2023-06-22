@@ -1,9 +1,12 @@
 # Third party
 # from captcha.fields import CaptchaField
+
 from captcha.fields import CaptchaField
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
+
+from accounts.models import User
 
 
 class RegisterForm(forms.Form):
@@ -12,9 +15,6 @@ class RegisterForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Username',
-            # 'id': 'name',
-            # 'name': 'name',
-            # 'type': 'text',
         }),
 
         validators=[
@@ -27,8 +27,6 @@ class RegisterForm(forms.Form):
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
             'placeholder': 'Email',
-            # 'id': 'email',
-            # 'name': 'email',
 
         }),
         validators=[
@@ -41,8 +39,6 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Password',
-            # 'id': 'pass',
-            # 'name': 'pass',
 
         }),
         validators=[
@@ -54,13 +50,24 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Confirm Password',
-            # 'id': 're_pass',
-            # 'name': 're_pass',
 
         }),
         validators=[
             validators.MaxLengthValidator(100),
         ]
+    )
+
+    # type = "checkbox"
+    # name = "remember-me"
+    # id = "remember-me"
+    #
+    # class ="agree-term"
+    remember_me = forms.CharField(
+        label='remember_me',
+        widget=forms.CheckboxInput(attrs={
+            'name': "remember-me",
+            'id': "remember-me",
+        })
     )
 
     captcha = CaptchaField()
@@ -74,14 +81,12 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
-        label='Username',
-        widget=forms.TextInput(attrs={
+    email = forms.CharField(
+        label='Email',
+        widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Username',
-            # 'id': 'your_name',
-            # 'name': 'your_name',
-            # 'type': 'text',
+            'placeholder': 'Email',
+
         }),
 
         validators=[
@@ -94,17 +99,38 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Password',
-            # 'id': 'your_pass',
-            # 'name': 'your_pass',
 
         }),
         validators=[
             validators.MaxLengthValidator(100),
         ]
     )
+
     captcha = CaptchaField()
 
-    # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+    remember_me = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={
+            'name': "remember-me",
+            'id': "remember-me",
+        }),
+        label='remember_me',
+        required=False,
+    )
+
+
+class LoginConfirmForm(forms.Form):
+    code = forms.CharField(
+        label='Code',
+        widget=forms.TextInput
+            (attrs={
+            'class': 'form-control',
+            'placeholder': 'Code',
+        }),
+
+        validators=[
+            validators.MaxLengthValidator(6),
+        ]
+    )
 
 
 class ForgotPasswordForm(forms.Form):
@@ -113,8 +139,6 @@ class ForgotPasswordForm(forms.Form):
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
             'placeholder': 'Email',
-            # 'id': 'email',
-            # 'name': 'email',
 
         }),
         validators=[
@@ -131,8 +155,6 @@ class ResetPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Password',
-            # 'id': 'pass',
-            # 'name': 'pass',
 
         }),
         validators=[
@@ -144,8 +166,6 @@ class ResetPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Confirm Password',
-            # 'id': 're_pass',
-            # 'name': 're_pass',
 
         }),
         validators=[
@@ -154,3 +174,81 @@ class ResetPasswordForm(forms.Form):
     )
 
     captcha = CaptchaField()
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+        labels = {
+            'first_name': 'First Name'
+        }
+
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First name',
+
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last name',
+
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email',
+            }),
+
+        }
+
+
+class EditPasswordForm(forms.Form):
+    current_password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Old password',
+
+        }),
+        validators=[
+            validators.MaxLengthValidator(100),
+        ]
+    )
+
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'New password',
+
+        }),
+        validators=[
+            validators.MaxLengthValidator(100),
+        ]
+    )
+
+    confirm_password = forms.CharField(
+        label='Confirm Password',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirm new password',
+
+        }),
+        validators=[
+            validators.MaxLengthValidator(100),
+        ]
+    )
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password == confirm_password:
+            return confirm_password
+        raise ValidationError('password dont match')
