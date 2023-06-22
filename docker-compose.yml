@@ -17,7 +17,7 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_d:/var/lib/postgresql/data
     networks:
       - main
     ports:
@@ -35,12 +35,12 @@ services:
     networks:
       - main
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - pgadmin_d:/var/lib/pgadmin
 networks:
   main:
     external: true
 #      name: main
 
 volumes:
-  postgres_data:
-  pgadmin_data:
+  postgres_d:
+  pgadmin_d:
