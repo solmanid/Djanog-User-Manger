@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - main
+
+  db:
+    image: postgis/postgis
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: soltanim00800@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'True'
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
+    ports:
+      - "5480:80"
+    networks:
+      - main
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+networks:
+  main:
+    external: true
+#      name: main
+
+volumes:
+  postgres_data:
+  pgadmin_data:
