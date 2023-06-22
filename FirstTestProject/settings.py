@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # local app
     'accounts',
     'home',
+    'reporter',
 
     # global app
     'captcha'
