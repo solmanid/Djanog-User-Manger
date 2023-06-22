@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <body class="sidebar-mini" style="height: auto;">
+    <div class="wrapper">
+        <div class="container text-center" style="min-height: 1604.62px;">
+
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-1">
+                            <h1>Profile</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             src="{% static 'dist/img/user4-128x128.jpg' %}" alt="User profile picture">
+                                    </div>
+
+                                    <h3 class="profile-username text-center">{{ user.first_name }} {{ user.last_name }}</h3>
+
+                                    <p class="text-muted text-center">{{ user.email }}</p>
+
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>Followers</b> <a class="float-right">1,322</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Following</b> <a class="float-right">543</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Friends</b> <a class="float-right">13,287</a>
+                                        </li>
+                                    </ul>
+
+                                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item"><a class="nav-link active" href="#settings"
+                                                                data-toggle="tab">Settings</a></li>
+                                        <li class="nav-item"><a class="nav-link "
+                                                                href="{% url 'edit_user_pass' %}"
+                                        >Password</a></li>
+                                        <li class="nav-item"><a class="nav-link btn-outline-danger"
+                                                                href="{% url 'user_logout' %}"
+                                        >Logout</a></li>
+                                    </ul>
+
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="settings">
+                                            <form class="form-horizontal" method="post" action="{% url 'edit_user' %}">
+                                                {% csrf_token %}
+                                                <div class="form-group row">
+                                                    <label for="inputName" class="col-sm-2 col-form-label"></label>
+                                                    <div class="col-sm-10">
+                                                        {{ form.first_name }}
+                                                        {{ form.first_name.errors }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail"
+                                                           class="col-sm-2 col-form-label"></label>
+                                                    <div class="col-sm-10">
+                                                        {{ form.last_name }}
+                                                        {{ form.last_name.errors }}
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputName2" class="col-sm-2 col-form-label"></label>
+                                                    <div class="col-sm-10">
+                                                        {{ form.email }}
+                                                        {{ form.email.errors }}
+
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-10">
+                                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                                    </div>
+                                                </div>
+                                                {#                                                <a href="{% url 'user_logout' %}">#}
+                                                {#                                                    <div class="form-group row">#}
+                                                {#                                                        <div class="offset-sm-2 col-sm-10">#}
+                                                {#                                                            <button type="submit" class="btn btn-danger">logout</button>#}
+                                                {#                                                        </div>#}
+                                                {#                                                    </div>#}
+                                                {#                                                </a>#}
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div id="sidebar-overlay"></div>
+    </div>
+    </body>
+{% endblock %}

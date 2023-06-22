@@ -1,86 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    {#    <div class="register-box card-center">#}
-    {##}
-    {#        <div class="card ">#}
-    {#            <div class="card-body register-card-body">#}
-    {##}
-    {#                <form action="{% url 'user_register' %}" method="post">#}
-    {#                    {% csrf_token %}#}
-    {#                    <div class="input-group mb-3">#}
-    {#                        {{ form.username }}#}
-    {#                        {{ form.username.errors }}#}
-    {##}
-    {#                        <div class="input-group-append">#}
-    {#                            <div class="input-group-text">#}
-    {#                                <span class="fas fa-user"></span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="input-group mb-3">#}
-    {#                        {{ form.email }}#}
-    {#                        {{ form.email.errors }}#}
-    {##}
-    {##}
-    {#                        <div class="input-group-append">#}
-    {#                            <div class="input-group-text">#}
-    {#                                <span class="fas fa-envelope"></span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="input-group mb-3">#}
-    {#                        {{ form.password }}#}
-    {#                        {{ form.password.errors }}#}
-    {##}
-    {##}
-    {#                        <div class="input-group-append">#}
-    {#                            <div class="input-group-text">#}
-    {#                                <span class="fas fa-lock"></span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="input-group mb-3">#}
-    {#                        {{ form.confirm_password }}#}
-    {#                        {{ form.confirm_password.errors }}#}
-    {##}
-    {##}
-    {#                        <div class="input-group-append">#}
-    {#                            <div class="input-group-text">#}
-    {#                                <span class="fas fa-lock"></span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="row">#}
-    {#                        <div class="col-8">#}
-    {#                            <div class="icheck-primary">#}
-    {#                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">#}
-    {#                                <label for="agreeTerms">#}
-    {#                                    I agree to the <a href="#">terms</a>#}
-    {#                                </label>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                        <!-- /.col -->#}
-    {#                        <div class="col-4">#}
-    {#                            <button type="submit" class="btn btn-primary btn-block">Register</button>#}
-    {#                        </div>#}
-    {#                        <!-- /.col -->#}
-    {#                    </div>#}
-    {#                </form>#}
-    {##}
-    {##}
-    {#                <a href="{% url 'user_login' %}" class="text-center">I already have a membership</a>#}
-    {#            </div>#}
-    {#            <!-- /.form-box -->#}
-    {#        </div><!-- /.card -->#}
-    {#    </div>#}
-    {##}
-    {##}
-    {##}
-
-
-    <div class="main">
-
+    <div class="main" style="padding-top: 60px">
         <!-- Sign up form -->
         <section class="signup">
             <div class="container">
@@ -91,7 +12,6 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
                                     {{ form.username }}
                                     {{ form.username.errors }}
                                     <div class="input-group-append">
@@ -103,7 +23,6 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
                                     {{ form.email }}
                                     {{ form.email.errors }}
                                     <div class="input-group-append">
@@ -115,7 +34,6 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
                                     {{ form.password }}
                                     {{ form.password.errors }}
                                     <div class="input-group-append">
@@ -127,7 +45,6 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    {#                                <input type="email" class="form-control" placeholder="Email">#}
                                     {{ form.confirm_password }}
                                     {{ form.confirm_password.errors }}
                                     <div class="input-group-append">
@@ -159,7 +76,5 @@
                 </div>
             </div>
         </section>
-
-
     </div>
 {% endblock %}

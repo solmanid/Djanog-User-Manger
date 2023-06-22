@@ -3,9 +3,9 @@
 {% block content %}
     {% if request.user.is_superuser %}
 
-        <div class="card">
+        <div class="card container text-center user-list-show" style="margin-top: 40px">
             <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+                <h3 class="card-title">Users</h3>
 
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -23,6 +23,8 @@
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
+
+
                     <tr>
                         <th>ID</th>
                         <th>User</th>
@@ -33,7 +35,9 @@
                     </thead>
                     <tbody>
                     {% for user in users %}
-                        <tr>
+                        <tr {% if user.is_superuser == True %}
+                            class=""
+                        {% endif %}>
                             <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
@@ -41,7 +45,7 @@
                             <td>
                                 <form method="post">
                                     {% csrf_token %}
-                                    <a href="{% url 'user-remove' pk=user.id %}" class="alert alert-danger">
+                                    <a href="{% url 'user-remove' pk=user.id %}" class="btn btn-danger">
                                         Delete
                                     </a>
                                 </form>
