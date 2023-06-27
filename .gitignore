@@ -1,16 +1,15 @@
 # Django #
-accounts/migrations
 *.log
 *.pot
 *.pyc
 __pycache__
 db.sqlite3
 media
-.DS_Store
+*.DS_Store
 venv
 # Backup files #
 *.bak
-.idea
+*.idea
 
 # If you are using PyCharm #
 # User-specific stuff
