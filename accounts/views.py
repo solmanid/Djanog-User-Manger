@@ -1,7 +1,8 @@
-# Django
+# Python
 import datetime
 import random
 
+# Django build-in
 from django import views
 from django.contrib import messages
 from django.contrib.auth import logout, login
@@ -11,13 +12,22 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.generic import ListView
-# Third Party
 
 # Local Django
-from accounts.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm, LoginConfirmForm, \
-    ProfileForm, EditPasswordForm
+from accounts.forms import (
+    RegisterForm,
+    LoginForm,
+    ForgotPasswordForm,
+    ResetPasswordForm,
+    LoginConfirmForm,
+    ProfileForm,
+    EditPasswordForm
+)
 from accounts.models import User, OtpCode
 from utils.email_service import send_email
+
+
+# Third Party
 
 
 class CreateUser(views.View):

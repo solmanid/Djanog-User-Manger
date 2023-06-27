@@ -1,12 +1,14 @@
 # Third party
-# from captcha.fields import CaptchaField
-
 from captcha.fields import CaptchaField
+# Django build-in
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
 
+# local app
 from accounts.models import User
+
+
 
 
 class RegisterForm(forms.Form):
@@ -188,7 +190,6 @@ class ProfileForm(forms.ModelForm):
         labels = {
             'first_name': 'First Name'
         }
-
 
         widgets = {
             'first_name': forms.TextInput(attrs={

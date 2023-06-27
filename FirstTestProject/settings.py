@@ -155,7 +155,7 @@ RECAPTCHA_PRIVATE_KEY = '6LeVAIYmAAAAAJvY5o7TzD5thHNisNMfLS03INIE'
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (-.023, 36.87),
     'DEFAULT_ZOOM': 5,
-    'MAX_ZOOM': 30,
+    # 'MAX_ZOOM': 30,
     'MIN_ZOOM': 3,
     'SCALE': 'both',
     # 'ATTRIBUTION_PREFIX': 'Inspired by Life in GIS'

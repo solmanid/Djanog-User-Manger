@@ -1,18 +1,13 @@
+# Django build-in
 from django import forms
 
+# Local Django
 from reporter.models import PlacePoints
 
 
 class CreatePointsForm(forms.ModelForm):
-    # lat = forms.FloatField(widget=forms.TextInput(attrs={
-    #     'type': 'hidden',
-    #     # 'id': 'lat'
-    # }))
     lng = forms.CharField(widget=forms.HiddenInput())
     lat = forms.CharField(widget=forms.HiddenInput())
-    #
-    # lng = forms.CharField()
-    # lat = forms.CharField()
 
     class Meta:
         model = PlacePoints

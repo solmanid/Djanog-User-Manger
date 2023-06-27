@@ -7,10 +7,52 @@
     {{ form.media }}
     {% leaflet_js plugins="forms" %}
     {% leaflet_css plugins="forms" %}
-    {% include 'reporter/include/header_links.html' %}
-    {% include 'reporter/include/footer_links.html' %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css"/>#}
+    <!-- Leaflet library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.coordinates/dist/leaflet.coordinates.min.css"/>#}
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/leaflet.coordinates@0.1.5/dist/Leaflet.Coordinates-0.1.5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.css">
+
+
+    {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.coordinates/dist/leaflet.coordinates.min.css"/>#}
+
+
+    <link rel="stylesheet" href="{% static 'L.Control.Locate.css' %}"/>
 {% endblock %}
 
+
+{% block js_link %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Leaflet.MousePosition plugin -->
+    {#    <script src="{% static 'L.Control.MousePosition.js' %}"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.min.js"></script>
+    {#        <script src="https://cdn.jsdelivr.net/npm/leaflet-draggable@1.0.0/dist/leaflet-draggable.min.js"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draggable-lines@1.2.1/dist/L.DraggableLines.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
+
+    <!-- Leaflet.locate plugin -->
+    <script src="{% static 'L.Control.Locate.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.min.js"></script>
+{% endblock %}
 
 
 {% block content %}
@@ -21,12 +63,12 @@
     <div id="popup-form" style="display: none">
         <form action="{% url 'edit_points' placeID=points.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.description }}
-            {{ form.picture }}
-            {{ form.lat }}
-            {{ form.lng }}
+            {{ form.description }}<br>
+            {{ form.picture }}<br>
+            {{ form.lat }}<br>
+            {{ form.lng }}<br>
             <div class="form-group form-button ">
-                <input type="submit" class="btn btn-primary btn-block" value="Add">
+                <input type="submit" class="btn btn-primary btn-block" value="Edit">
             </div>
         </form>
 
@@ -35,14 +77,10 @@
 
     {% block footer_links %}
         {% include 'reporter/include/footer_links.html' %}
-
-        <!-- Leaflet CSS and JavaScript -->
-
-
-
     {% endblock %}
+
     <script type="text/javascript">
-        var m = L.map('m').setView([31.8976, 54.3381], 15)
+        var m = L.map('m').setView(['{{ points.location.y }}', '{{ points.location.x }}'], 15)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(m);
@@ -56,12 +94,20 @@
         var latitude = "{{ points.location.y }}";
         var longitude = "{{ points.location.x }}";
         var popupContent = $('#popup-form');
+        var customIcon = L.icon({
+            iconUrl: "{% static 'marker/gps.png' %}", // URL to the custom icon image
+            iconSize: [50, 50], // size of the icon image
+            iconAnchor: [16, 32], // position of the icon's anchor point
+        });
 
-        var marker = L.marker([latitude, longitude], {draggable: true}).addTo(m).bindPopup(popupContent.html());
+        var marker = L.marker([latitude, longitude], {
+            draggable: true,
+            icon: customIcon
+        }).addTo(m).bindPopup(popupContent.html());
 
 
         var coordinatesControl = new L.Control.Coordinates({
-            position: 'bottomleft', // Control position on the map (default: 'bottomleft')
+            position: 'bottomleft', // Control position on the map (default: 'bottom left')
             decimals: 4, // Number of decimal places for coordinates (default: 4)
             decimalSeperator: '.', // Decimal separator character (default: '.')
             labelTemplateLat: "Latitude: {y}", // Label template for latitude (default: "Lat: {y}")
@@ -71,9 +117,8 @@
             useLatLngOrder: false, // Display coordinates in the order [Lat, Lng] (default: true)
         });
 
-        coordinatesControl.addTo(m);
 
-        {#L.control.mousePosition().addTo(m);#}
+        coordinatesControl.addTo(m);
 
         // Initialize the Locate control
         L.control.locate({
@@ -91,39 +136,6 @@
             document.getElementById('id_lat').value = lat;
 
         })
-
-        {#marker.on('dragend', function (event) {#}
-        {#    var lng = event.target.getLatLng().lng.toFixed(6);#}
-        {#    var lat = event.target.getLatLng().lat.toFixed(6);#}
-        {##}
-        {##}
-        {#    document.getElementById('id_lat').value = "30.2914";#}
-        {#    document.getElementById('id_lng').value = "53.9864";#}
-        {#window.alert(lat)#}
-        {#window.alert(document.getElementById('id_lat').value)#}
-        {# });#}
-        {#var marker = L.marker();#}
-        {##}
-        {#function onMapClick(e) {#}
-        {#    var lat = e.latlng.lat.toFixed(6);#}
-        {#    var lng = e.latlng.lng.toFixed(6);#}
-        {##}
-        {#    marker#}
-        {#        .setLatLng(e.latlng)#}
-        {#        .addTo(m)#}
-        {#        .bindPopup(popupContent.html())#}
-        {#        .openPopup();#}
-        {##}
-        {#    document.getElementById('id_lat').value = lat;#}
-        {#    document.getElementById('id_lng').value = lng;#}
-        {##}
-        {##}
-        {#    window.alert("Confirm the form to create a mark on the map!");#}
-        {##}
-        {# }#}
-        {##}
-        {#marker.on('dragend', onMapClick);#}
-
 
     </script>
 
