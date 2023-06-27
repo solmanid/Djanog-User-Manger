@@ -3,14 +3,14 @@ accounts/migrations
 *.log
 *.pot
 *.pyc
-__pycache__
+*__pycache__/
 db.sqlite3
 media
 .DS_Store
+.idea/
 venv
 # Backup files #
 *.bak
-.gitignore
 
 # If you are using PyCharm #
 # User-specific stuff
