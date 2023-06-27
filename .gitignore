@@ -7,7 +7,7 @@ accounts/migrations
 db.sqlite3
 media
 .DS_Store
-.idea/
+*.idea/
 venv
 # Backup files #
 *.bak
