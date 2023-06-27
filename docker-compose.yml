@@ -1,8 +1,67 @@
+#version: "3.8"
+#services:
+#  app:
+#    build: .
+#    command: python manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - .:/code
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#    networks:
+#      - main
+#
+#  db:
+#    image: postgis/postgis
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - postgres_d:/var/lib/postgresql/data
+#    networks:
+#      - main
+#    ports:
+#      - "5432:5432"
+#
+#  pgadmin4:
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: soltanim00800@gmail.com
+#      PGADMIN_DEFAULT_PASSWORD: postgres
+#      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'True'
+#      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
+#    ports:
+#      - "5480:80"
+#    networks:
+#      - main
+#    volumes:
+#      - pgadmin_d:/var/lib/pgadmin
+#
+#
+#networks:
+#  main:
+#    external: true
+##      name: main
+#
+#volumes:
+#  postgres_d:
+#  pgadmin_d:
+
+
+
 version: "3.8"
 services:
   app:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "/wait && python manage.py runserver 0.0.0.0:8000"
+
+    environment:
+      #WAIT_HOSTS: postgis:5432, mongodb:27017
+      - POSTGRES_PASSWORD=gis
+      - POSTGRES_DB_NAME=gis
+      - POSTGRES_USER=gis
+
     volumes:
       - .:/code
     ports:
@@ -12,17 +71,30 @@ services:
     networks:
       - main
 
+#  db:
+#    image: postgis/postgis
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - main
+#    ports:
+#      - 5432:5432
+
   db:
-    image: postgis/postgis
-    environment:
-      POSTGRES_PASSWORD: postgres
+    image: kartoza/postgis:12.1
+    restart: always
     volumes:
-      - postgres_d:/var/lib/postgresql/data
+      - .:/usr/src/app
     networks:
       - main
     ports:
       - "5432:5432"
-
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=gis
+      - POSTGRES_PASSWORD=gis
   pgadmin4:
     image: dpage/pgadmin4
     environment:
@@ -34,13 +106,8 @@ services:
       - "5480:80"
     networks:
       - main
-    volumes:
-      - pgadmin_d:/var/lib/pgadmin
+
 networks:
   main:
-    external: true
-#      name: main
-
-volumes:
-  postgres_d:
-  pgadmin_d:
+    external:
+      name: main

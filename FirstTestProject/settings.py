@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure--w)28tb5=4+z9j^x%oo1xm$41ff-@rj5ryq3py$h%3zt0^eifn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -39,9 +39,15 @@ INSTALLED_APPS = [
     'accounts',
     'home',
     'reporter',
+    'django.contrib.gis',
 
     # global app
-    'captcha'
+    'captcha',
+    'leaflet',
+
+    # 'location_field.apps.DefaultConfig',
+    # 'location_field.apps.DefaultConfig',
+    # 'location_field',
 
 ]
 
@@ -81,12 +87,13 @@ WSGI_APPLICATION = 'FirstTestProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        # 'ENGINE': 'django.db.backends.postgresql',
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": str(os.getenv("POSTGRES_DB_NAME", "gis")),
+        "USER": str(os.getenv("POSTGRES_USER", "gis")),
+        "PASSWORD": str(os.getenv("POSTGRES_PASSWORD", "gis")),
+        "HOST": str(os.getenv("POSTGRES_HOST", "172.22.0.3")),
+        "PORT": 5432,
     }
 }
 
@@ -128,7 +135,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/medias/'
 
-MEDIA_ROOT = [BASE_DIR / 'media']
+MEDIA_ROOT = 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -144,3 +151,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RECAPTCHA_PUBLIC_KEY = '6LeVAIYmAAAAAFyPB-4T8NqqPWuV_LWwjFWrE6gL'
 RECAPTCHA_PRIVATE_KEY = '6LeVAIYmAAAAAJvY5o7TzD5thHNisNMfLS03INIE'
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (-.023, 36.87),
+    'DEFAULT_ZOOM': 5,
+    'MAX_ZOOM': 30,
+    'MIN_ZOOM': 3,
+    'SCALE': 'both',
+    # 'ATTRIBUTION_PREFIX': 'Inspired by Life in GIS'
+}

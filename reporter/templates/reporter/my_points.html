@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load leaflet_tags %}
+
+
+{% block header %}
+    {{ form.media }}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+    {% include 'reporter/include/header_links.html' %}
+    {% include 'reporter/include/footer_links.html' %}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div id="m" style="width: 1900px; height: 840px"></div>
+
+
+
+
+    <script type="text/javascript">
+        var m = L.map('m').setView([31.8976, 54.3381], 15)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(m);
+        var bounds = L.latLngBounds(
+            L.latLng(31.8012, 54.1909), // Southwest corner
+            L.latLng(32.0159, 54.4448)// Northeast corner (latitude, longitude)
+        );
+        m.setMaxBounds(bounds);
+
+        m.setMinZoom(13);
+        {% for e in object_list %}
+            var latitude = {{ e.location.y }};
+            var longitude = {{ e.location.x }};
+            var url_e = "<a href='{% url 'edit_points' placeID=e.id%}' class='btn btn-primary'><span style='color:black;'>Edit</span></a>"
+            var url_d = "<a href='{% url 'edit_points' placeID=e.id%}' class='btn btn-danger '><span style='color:black;'>Delete</span></a>"
+
+            L.marker([latitude, longitude]).addTo(m).bindPopup('{{ e }}' + '<br>' + url_e + ' ' + url_d)
+
+
+        {% endfor %}
+        var coordinatesControl = new L.Control.Coordinates({
+            position: 'bottomleft', // Control position on the map (default: 'bottomleft')
+            decimals: 4, // Number of decimal places for coordinates (default: 4)
+            decimalSeperator: '.', // Decimal separator character (default: '.')
+            labelTemplateLat: "Latitude: {y}", // Label template for latitude (default: "Lat: {y}")
+            labelTemplateLng: "Longitude: {x}", // Label template for longitude (default: "Lng: {x}")
+            enableUserInput: false, // Enable manual input of coordinates (default: false)
+            useDMS: false, // Display coordinates in DMS format (default: false)
+            useLatLngOrder: false, // Display coordinates in the order [Lat, Lng] (default: true)
+        });
+
+        coordinatesControl.addTo(m);
+
+        {# another way for show the lat and lng #}
+        {#L.control.mousePosition().addTo(m);#}
+
+        // Initialize the Locate control
+        L.control.locate({
+            onLocationError: function (err) {
+                alert('Error: ' + err.message);
+            }
+        }).addTo(m);
+
+
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load leaflet_tags %}
+
+
+{% block header %}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+{% endblock %}
+
+
+{% block content %}
+    <form action="{% url 'create_points' %} " method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="height: 400px">
+            {{ form.location }}
+        </div>
+        <br>
+        <div class="mb-3">
+            {#            <label>Description#}
+            {{ form.description }}
+            {#            </label>#}
+        </div>
+
+        <br>
+        <br>
+        <div class="mb-3">
+            {{ form.picture }}
+        </div>
+
+        <div class="form-group form-button">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </div>
+    </form>
+    <br> <br>
+    <hr>
+
+
+{% endblock %}

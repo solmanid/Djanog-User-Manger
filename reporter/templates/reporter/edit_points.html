@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load leaflet_tags %}
+
+
+{% block header %}
+    {{ form.media }}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+    {% include 'reporter/include/header_links.html' %}
+    {% include 'reporter/include/footer_links.html' %}
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div id="m" style="width: 1900px; height: 840px"></div>
+
+
+    <div id="popup-form" style="display: none">
+        <form action="{% url 'edit_points' placeID=points.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.description }}
+            {{ form.picture }}
+            {{ form.lat }}
+            {{ form.lng }}
+            <div class="form-group form-button ">
+                <input type="submit" class="btn btn-primary btn-block" value="Add">
+            </div>
+        </form>
+
+    </div>
+
+
+    {% block footer_links %}
+        {% include 'reporter/include/footer_links.html' %}
+
+        <!-- Leaflet CSS and JavaScript -->
+
+
+
+    {% endblock %}
+    <script type="text/javascript">
+        var m = L.map('m').setView([31.8976, 54.3381], 15)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(m);
+        var bounds = L.latLngBounds(
+            L.latLng(31.8012, 54.1909), // Southwest corner
+            L.latLng(32.0159, 54.4448)// Northeast corner (latitude, longitude)
+        );
+        m.setMaxBounds(bounds);
+
+        m.setMinZoom(13);
+        var latitude = "{{ points.location.y }}";
+        var longitude = "{{ points.location.x }}";
+        var popupContent = $('#popup-form');
+
+        var marker = L.marker([latitude, longitude], {draggable: true}).addTo(m).bindPopup(popupContent.html());
+
+
+        var coordinatesControl = new L.Control.Coordinates({
+            position: 'bottomleft', // Control position on the map (default: 'bottomleft')
+            decimals: 4, // Number of decimal places for coordinates (default: 4)
+            decimalSeperator: '.', // Decimal separator character (default: '.')
+            labelTemplateLat: "Latitude: {y}", // Label template for latitude (default: "Lat: {y}")
+            labelTemplateLng: "Longitude: {x}", // Label template for longitude (default: "Lng: {x}")
+            enableUserInput: false, // Enable manual input of coordinates (default: false)
+            useDMS: false, // Display coordinates in DMS format (default: false)
+            useLatLngOrder: false, // Display coordinates in the order [Lat, Lng] (default: true)
+        });
+
+        coordinatesControl.addTo(m);
+
+        {#L.control.mousePosition().addTo(m);#}
+
+        // Initialize the Locate control
+        L.control.locate({
+            onLocationError: function (err) {
+                alert('Error: ' + err.message);
+            }
+        }).addTo(m);
+        marker.on('click', function (e) {
+            {#var lng = e.target.getLatLng().lng.toFixed(6);#}
+            {#var lat = e.target.getLatLng().lat.toFixed(6);#}
+            var lng = e.latlng.lng.toFixed(6);
+
+            var lat = e.latlng.lat.toFixed(6);
+            document.getElementById('id_lng').value = lng;
+            document.getElementById('id_lat').value = lat;
+
+        })
+
+        {#marker.on('dragend', function (event) {#}
+        {#    var lng = event.target.getLatLng().lng.toFixed(6);#}
+        {#    var lat = event.target.getLatLng().lat.toFixed(6);#}
+        {##}
+        {##}
+        {#    document.getElementById('id_lat').value = "30.2914";#}
+        {#    document.getElementById('id_lng').value = "53.9864";#}
+        {#window.alert(lat)#}
+        {#window.alert(document.getElementById('id_lat').value)#}
+        {# });#}
+        {#var marker = L.marker();#}
+        {##}
+        {#function onMapClick(e) {#}
+        {#    var lat = e.latlng.lat.toFixed(6);#}
+        {#    var lng = e.latlng.lng.toFixed(6);#}
+        {##}
+        {#    marker#}
+        {#        .setLatLng(e.latlng)#}
+        {#        .addTo(m)#}
+        {#        .bindPopup(popupContent.html())#}
+        {#        .openPopup();#}
+        {##}
+        {#    document.getElementById('id_lat').value = lat;#}
+        {#    document.getElementById('id_lng').value = lng;#}
+        {##}
+        {##}
+        {#    window.alert("Confirm the form to create a mark on the map!");#}
+        {##}
+        {# }#}
+        {##}
+        {#marker.on('dragend', onMapClick);#}
+
+
+    </script>
+
+
+
+
+
+{% endblock %}

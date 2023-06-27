@@ -1,0 +1,4 @@
+export POSTGRES_USER=postgres_user
+export POSTGRES_PASSWORD=postgres_pass
+export POSTGRES_DB_NAME=postgres_test_db
+export POSTGRES_HOST=127.0.0.1

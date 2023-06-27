@@ -1,9 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     {% include 'includes/headers_link.html' %}
+    {% block header %}
+
+    {% endblock %}
 </head>
 <body>
 
@@ -15,6 +19,12 @@
 
 {% endblock %}
 
-{% include 'includes/footers_link.html' %}
+<script src={% static "plugins/jquery/jquery.min.js" %}></script>
+<script src={% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}></script>
+<script src={% static "dist/js/adminlte.min.js" %}></script>
+<script src="{% static "custom/custom.js" %}"></script>
+{% block footer_links %}
+
+{% endblock %}
 </body>
 </html>
