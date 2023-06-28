@@ -92,7 +92,7 @@ DATABASES = {
         "NAME": str(os.getenv("POSTGRES_DB_NAME", "gis")),
         "USER": str(os.getenv("POSTGRES_USER", "gis")),
         "PASSWORD": str(os.getenv("POSTGRES_PASSWORD", "gis")),
-        "HOST": str(os.getenv("POSTGRES_HOST", "172.22.0.3")),
+        "HOST": str(os.getenv("POSTGRES_HOST", "db")),
         "PORT": 5432,
     }
 }

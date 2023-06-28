@@ -8,7 +8,7 @@ from accounts.models import User, OtpCode
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    pass
+    filter_horizontal = ('groups', 'user_permissions')
 
 
 @admin.register(OtpCode)

@@ -49,7 +49,7 @@ class CreateUser(views.View):
                 messages.error(request, 'This user already exist', 'danger')
                 return render(request, 'accounts/register_page.html', {'form': form})
             # Create user happened
-            user = User(username=email, email=email, )
+            user = User(username=User.objects.normalize_email(email), email=email, )
             user.email_active_code = get_random_string(72)
 
             user.set_password(password)
@@ -81,13 +81,13 @@ class UserLogin(views.View):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             user_pass = form.cleaned_data.get('password')
-            user = User.objects.get(username=email)  # check user exists or not
+            user = User.objects.filter(username=User.objects.normalize_email(email)).first()  # check user exists or not
             if user is not None:
                 user_check = user.check_password(user_pass)
                 if user_check:  # check pass
                     otp = OtpCode.objects.create(email=user.email, code=random.randint(1000, 9999))
                     otp_code = otp.code
-
+                    login(request, user)
                     request.session['otp_code'] = otp_code  # we save it because want to send it for 2verifying
                     send_email(
                         subject='Login Confirm',
@@ -96,6 +96,7 @@ class UserLogin(views.View):
                         template_name='emails/login_confirm.html')
 
                     messages.success(request, f'We send email to {user.email}', 'success')
+
                     # todo: login automatically
 
                     remember_me = request.POST.get('remember_me', False)

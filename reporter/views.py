@@ -1,10 +1,12 @@
 # Django build-in
 from django import views
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import Point
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-
+from django.utils.decorators import method_decorator
 # Local Django
 from reporter.forms import CreatePointsForm
 from reporter.models import PlacePoints
@@ -12,6 +14,7 @@ from reporter.models import PlacePoints
 
 class ListPoint(views.View):
     def get(self, request):
+        user = request.user
         queryset = PlacePoints.objects.filter(status=True)
         form = CreatePointsForm()
 
@@ -21,6 +24,7 @@ class ListPoint(views.View):
         }
         return render(request, 'reporter/map_point.html', context)
 
+    @method_decorator(login_required)
     def post(self, request: HttpRequest):
         queryset = PlacePoints.objects.filter(status=True)
 
@@ -54,7 +58,7 @@ class ListPoint(views.View):
         return render(request, 'reporter/map_point.html', context)
 
 
-class EditPoint(views.View):
+class EditPoint(LoginRequiredMixin, views.View):
     form_class = CreatePointsForm
 
     def get(self, request, placeID):
@@ -95,7 +99,7 @@ class EditPoint(views.View):
         return render(request, 'reporter/edit_points.html', context)
 
 
-class DeletePoint(views.View):
+class DeletePoint(LoginRequiredMixin, views.View):
     def get(self, request: HttpRequest, placeID):
         PlacePoints.objects.get(id=placeID).delete()
         return redirect('lists_points')
