@@ -7,12 +7,17 @@ from django.contrib.gis.geos import Point
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
+# Tird party
+from guardian.mixins import PermissionRequiredMixin
+
 # Local Django
 from reporter.forms import CreatePointsForm
 from reporter.models import PlacePoints
 
 
-class ListPoint(views.View):
+class ListPoint(PermissionRequiredMixin, views.View):
+    permission_required = ['view_placepoints', 'add_placepoints']
+
     def get(self, request):
         user = request.user
         queryset = PlacePoints.objects.filter(status=True)
@@ -26,8 +31,9 @@ class ListPoint(views.View):
 
     @method_decorator(login_required)
     def post(self, request: HttpRequest):
-        queryset = PlacePoints.objects.filter(status=True)
+        user = request.user
 
+        queryset = PlacePoints.objects.filter(status=True).first()
         form = CreatePointsForm(request.POST, request.FILES)
         if form.is_valid():
             latitude = float(form.cleaned_data['lat'])

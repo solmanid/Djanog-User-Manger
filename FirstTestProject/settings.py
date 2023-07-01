@@ -44,10 +44,7 @@ INSTALLED_APPS = [
     # global app
     'captcha',
     'leaflet',
-
-    # 'location_field.apps.DefaultConfig',
-    # 'location_field.apps.DefaultConfig',
-    # 'location_field',
+    'guardian',
 
 ]
 
@@ -96,7 +93,7 @@ DATABASES = {
         "PORT": 5432,
     }
 }
-
+# use (db) or (172.22.0.3) to connect localhost
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -160,3 +157,8 @@ LEAFLET_CONFIG = {
     'SCALE': 'both',
     # 'ATTRIBUTION_PREFIX': 'Inspired by Life in GIS'
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
